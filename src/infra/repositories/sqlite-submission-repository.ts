@@ -30,7 +30,7 @@ export class SqliteSubmissionRepository implements SubmissionRepository {
   }
 
   listByAttempt(attemptId: string): Submission[] {
-    const rows = this.db.prepare("SELECT * FROM submissions WHERE attempt_id = ? ORDER BY created_at").all(attemptId) as Row[];
+    const rows = this.db.prepare("SELECT * FROM submissions WHERE attempt_id = ? ORDER BY created_at").all(attemptId) as unknown as Row[];
     return rows.map((r) => this.toSubmission(r));
   }
 

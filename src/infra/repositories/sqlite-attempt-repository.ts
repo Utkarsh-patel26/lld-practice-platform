@@ -53,7 +53,7 @@ export class SqliteAttemptRepository implements AttemptRepository {
       problemId
         ? this.db.prepare("SELECT * FROM attempts WHERE learner_id = ? AND problem_id = ? ORDER BY created_at").all(learnerId, problemId)
         : this.db.prepare("SELECT * FROM attempts WHERE learner_id = ? ORDER BY created_at").all(learnerId)
-    ) as Row[];
+    ) as unknown as Row[];
     return rows.map(toAttempt);
   }
 }

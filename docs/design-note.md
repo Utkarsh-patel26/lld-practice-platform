@@ -130,5 +130,5 @@ type Finding = {
 - Keyword coverage is crude: synonyms are missed and substrings can match, which is why it only produces low-confidence hints.
 - LLM scores can still vary slightly between runs.
 - There is one demo learner.
-- Repositories are synchronous (better-sqlite3).
+- Repositories are synchronous (Node's built-in `node:sqlite`).
 - **Next:** an eval set of real designs to calibrate the prompt, human review as a third evaluator, diagram input, and per-requirement traceability in feedback.

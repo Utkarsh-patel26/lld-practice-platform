@@ -1,4 +1,4 @@
-import type { Db } from "./db.js";
+import { inTransaction, type Db } from "./db.js";
 
 /** Append-only list; the index + 1 is the schema version stored in PRAGMA user_version. */
 const MIGRATIONS: readonly string[] = [
@@ -47,11 +47,11 @@ const MIGRATIONS: readonly string[] = [
 ];
 
 export function migrate(db: Db): void {
-  const current = db.pragma("user_version", { simple: true }) as number;
+  const current = Number((db.prepare("PRAGMA user_version").get() as { user_version: number }).user_version);
   for (let v = current; v < MIGRATIONS.length; v++) {
-    db.transaction(() => {
+    inTransaction(db, () => {
       db.exec(MIGRATIONS[v]!);
-      db.pragma(`user_version = ${v + 1}`);
-    })();
+      db.exec(`PRAGMA user_version = ${v + 1}`);
+    });
   }
 }

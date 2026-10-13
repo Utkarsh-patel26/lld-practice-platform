@@ -16,7 +16,7 @@ npm test                          # 37 tests
 npm run build && npm start        # production: everything on http://localhost:3000
 ```
 
-Requires Node 20+. With no configuration it uses the **mock evaluator**: deterministic keyword heuristics behind the real prompt → zod → evidence-check path, labelled "Mock evaluator" in the UI.
+Requires Node 22.13+ (uses the built-in `node:sqlite`, so there is no native build step). With no configuration it uses the **mock evaluator**: deterministic keyword heuristics behind the real prompt → zod → evidence-check path, labelled "Mock evaluator" in the UI.
 
 **Use a real LLM:** copy `.env.example` to `.env` and set one of:
 
@@ -153,7 +153,7 @@ The practice flow (`PracticeService`, `Attempt`, `Submission`) never knows **whi
 
 - Keyword coverage is crude: synonyms are missed and substrings can match, so it only produces low-confidence hints.
 - LLM scores can still vary slightly between runs; temperature 0 isn't available on current Claude models, so consistency relies on anchors, the schema and code-side scoring.
-- One demo learner, no auth. Repositories are synchronous (better-sqlite3).
+- One demo learner, no auth. Repositories are synchronous (Node's built-in `node:sqlite`).
 - **Next:** a small eval set of real designs to calibrate the prompt; human review as a third evaluator; diagram input; per-requirement traceability in feedback.
 
 ## Project structure
