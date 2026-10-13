@@ -126,7 +126,7 @@ export class PracticeService {
   retryEvaluation(submissionId: string): Submission {
     const submission = this.requireSubmission(submissionId);
     const now = this.d.clock.now();
-    submission.startEvaluation(now);
+    submission.retryEvaluation(now);
     this.d.tx.run(() => {
       this.d.submissions.save(submission);
       this.d.queue.enqueue(submission.id, now);

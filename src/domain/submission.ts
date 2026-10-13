@@ -97,10 +97,19 @@ export class Submission {
     return TRANSITIONS[from].includes(to);
   }
 
-  /** SUBMITTED -> EVALUATING (worker picks it up) and FAILED -> EVALUATING (learner asks for a retry). */
+  /** SUBMITTED -> EVALUATING: the worker picks it up. */
   startEvaluation(now: Date): void {
     this.moveTo("EVALUATING", now);
     this._failureReason = null;
+  }
+
+  /**
+   * FAILED -> EVALUATING: the learner asks for another evaluation. Checked separately because the table
+   * also allows SUBMITTED -> EVALUATING, and a retry must not jump a submission that was never evaluated.
+   */
+  retryEvaluation(now: Date): void {
+    if (this._status !== "FAILED") throw new IllegalTransitionError(this._status, "EVALUATING");
+    this.startEvaluation(now);
   }
 
   complete(now: Date): void {
