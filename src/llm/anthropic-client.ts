@@ -38,8 +38,10 @@ export class AnthropicClient implements LlmClient {
         { signal: req.signal },
       );
     } catch (err) {
-      if (err instanceof Anthropic.APIError && typeof err.status === "number")
-        throw LlmError.fromStatus("Anthropic", err.status, err.message);
+      if (err instanceof Anthropic.APIError && typeof err.status === "number") {
+        const detail = (err.error as { error?: { message?: string } } | undefined)?.error?.message ?? err.message;
+        throw LlmError.fromStatus("Anthropic", err.status, detail);
+      }
       throw err; // connection errors and aborts: retryable by default
     }
 
