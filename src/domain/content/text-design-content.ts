@@ -3,6 +3,8 @@ import type { EvaluationInput, SectionRole } from "../evaluation/evaluator.js";
 import type { FieldError, SubmissionContent, ValidationResult } from "./submission-content.js";
 
 export const TEXT_DESIGN_FORMAT = "text-design";
+/** Caps prompt size (and cost) per section; a design that needs more is not a 45-minute LLD answer. */
+export const MAX_SECTION_LENGTH = 12_000;
 
 interface SectionSpec {
   readonly key: SectionRole;
@@ -47,6 +49,8 @@ export class TextDesignContent implements SubmissionContent {
     for (const spec of TEXT_DESIGN_SECTIONS) {
       const length = this.sections[spec.key].length;
       if (length === 0) errors.push({ field: spec.key, message: `${spec.title} is required.` });
+      else if (length > MAX_SECTION_LENGTH)
+        errors.push({ field: spec.key, message: `${spec.title} is too long (${length} characters, max ${MAX_SECTION_LENGTH}).` });
       else if (length < spec.minLength)
         errors.push({
           field: spec.key,

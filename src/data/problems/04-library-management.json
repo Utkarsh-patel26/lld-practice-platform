@@ -1,0 +1,26 @@
+{
+  "id": "library-management",
+  "title": "Library Management",
+  "difficulty": "medium",
+  "summary": "Search, borrow and return books, limits, fines and reservations.",
+  "description": "Design a library system for members and librarians. Members search the catalogue, borrow and return physical book copies, reserve books that are on loan, and pay fines for late returns.",
+  "requirements": [
+    { "id": "R1", "text": "Members can search books by title, author or subject.", "keywords": ["search", "catalog", "catalogue"] },
+    { "id": "R2", "text": "A book can have several physical copies; members borrow and return copies.", "keywords": ["borrow", "return", "copy", "loan", "checkout"] },
+    { "id": "R3", "text": "A member may hold at most 5 books at a time.", "keywords": ["limit", "max", "5 books", "five"] },
+    { "id": "R4", "text": "Each loan has a due date; late returns incur a fine per day.", "keywords": ["due", "fine", "late", "overdue"] },
+    { "id": "R5", "text": "Members can reserve a book whose copies are all on loan, and are notified when one is returned.", "keywords": ["reserve", "reservation", "hold", "waitlist", "notify"] },
+    { "id": "R6", "text": "Librarians add and remove books and copies.", "keywords": ["librarian", "add book", "remove", "admin"] }
+  ],
+  "constraints": [
+    "Many members use the system at once; two members must not borrow the same copy.",
+    "Notifications go through an interface (email/SMS are out of scope).",
+    "Focus on the domain; persistence can be repositories."
+  ],
+  "changeRequest": {
+    "id": "CR1",
+    "title": "E-books with licence limits",
+    "text": "Add e-books. Each e-book has a fixed number of concurrent licences; a loan takes a licence and returns it automatically at the due date. E-books do not incur late fines.",
+    "keywords": ["ebook", "e-book", "licence", "license", "digital"]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "elevator-system",
+  "title": "Elevator System",
+  "difficulty": "medium",
+  "summary": "N elevators, hall and in-car requests, dispatching and states.",
+  "description": "Design the control software for a building with N elevators. People call an elevator from a floor (hall call, with an up or down button) or choose a destination inside the car. The system decides which elevator serves each hall call.",
+  "requirements": [
+    { "id": "R1", "text": "The building has N elevators serving floors 0..M.", "keywords": ["elevator", "lift", "car"] },
+    { "id": "R2", "text": "Hall calls (floor + direction) and in-car requests (destination floor) are both supported.", "keywords": ["hall call", "hallcall", "in-car", "destination", "button", "request"] },
+    { "id": "R3", "text": "Each elevator tracks its direction (up, down, idle) and door state (open, closed).", "keywords": ["direction", "door", "idle"] },
+    { "id": "R4", "text": "A dispatcher picks the best elevator for each hall call.", "keywords": ["dispatch", "scheduler", "assign", "select elevator", "nearest"] },
+    { "id": "R5", "text": "An elevator can be put into maintenance mode and then receives no new requests.", "keywords": ["maintenance", "out of service", "disabled"] },
+    { "id": "R6", "text": "Doors never open while the elevator is moving.", "keywords": ["moving", "door", "safety", "state"] }
+  ],
+  "constraints": [
+    "Requests arrive concurrently from many floors.",
+    "Assume a simulated clock; no real hardware.",
+    "Capacity/weight limits are out of scope unless you choose to add them."
+  ],
+  "changeRequest": {
+    "id": "CR1",
+    "title": "Peak-hour dispatch",
+    "text": "Switch the dispatch strategy by time of day: zone-based dispatch during the morning peak (each elevator serves a block of floors), nearest-car the rest of the day.",
+    "keywords": ["zone", "peak", "time of day", "morning"]
+  }
+}

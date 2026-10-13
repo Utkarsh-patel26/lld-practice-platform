@@ -31,7 +31,7 @@ export class MockLlmClient implements LlmClient {
 function evaluate(prompt: string): MockFinding[] {
   const sections = new Map<string, string[]>();
   for (const m of prompt.matchAll(/<section role="(\w+)"[^>]*>\n([\s\S]*?)\n<\/section>/g))
-    sections.set(m[1]!, m[2]!.split("\n").map((l) => l.trim()).filter((l) => l.length >= 8));
+    sections.set(m[1]!, sentences(m[2]!));
   const lines = (role: string) => sections.get(role) ?? [];
   const all = [...sections.values()].flat();
   const first = (role: string) => lines(role)[0] ?? all[0] ?? "";
@@ -146,6 +146,15 @@ function evaluate(prompt: string): MockFinding[] {
   });
 
   return out;
+}
+
+/** Quotable units: lines split into sentences, 8-200 chars, so every quote is short and verbatim. */
+function sentences(text: string): string[] {
+  return text
+    .split("\n")
+    .flatMap((line) => line.trim().split(/(?<=[.!?;])\s+/))
+    .map((s) => s.trim())
+    .filter((s) => s.length >= 8 && s.length <= 200);
 }
 
 function delay(ms: number, signal?: AbortSignal): Promise<void> {

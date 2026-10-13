@@ -1,0 +1,26 @@
+{
+  "id": "vending-machine",
+  "title": "Vending Machine",
+  "difficulty": "easy",
+  "summary": "Select items, pay with coins and notes, get change, handle stock.",
+  "description": "Design a vending machine that sells snacks and drinks. A customer selects an item, inserts coins or notes, and receives the item plus change. An operator restocks the machine and collects cash.",
+  "requirements": [
+    { "id": "R1", "text": "The customer selects an item by its slot code and sees its price.", "keywords": ["select", "slot", "item code", "product"] },
+    { "id": "R2", "text": "The machine accepts coins and notes of fixed denominations and tracks the amount inserted.", "keywords": ["coin", "note", "denomination", "insert"] },
+    { "id": "R3", "text": "When enough money is inserted, the item is dispensed and change is returned.", "keywords": ["change", "dispense"] },
+    { "id": "R4", "text": "An out-of-stock item cannot be bought, and the customer is told so before paying.", "keywords": ["out of stock", "out-of-stock", "sold out", "stock", "inventory"] },
+    { "id": "R5", "text": "The customer can cancel at any point before dispensing and gets a full refund.", "keywords": ["cancel", "refund"] },
+    { "id": "R6", "text": "An admin can restock items and collect cash.", "keywords": ["restock", "admin", "operator", "refill"] }
+  ],
+  "constraints": [
+    "The machine may be unable to make exact change; it must not take money it can't return.",
+    "Only one customer uses the machine at a time.",
+    "Hardware (coin slot, motor) is behind interfaces; don't model electronics."
+  ],
+  "changeRequest": {
+    "id": "CR1",
+    "title": "UPI and card payments",
+    "text": "Accept UPI and card payments alongside cash. Digital payments are confirmed asynchronously by a payment provider and need no change.",
+    "keywords": ["upi", "card", "digital payment", "payment provider", "paymentmethod", "payment method"]
+  }
+}

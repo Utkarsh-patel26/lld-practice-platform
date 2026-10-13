@@ -1,0 +1,26 @@
+{
+  "id": "parking-lot",
+  "title": "Parking Lot",
+  "difficulty": "easy",
+  "summary": "Multi-floor parking with spot sizes, tickets and hourly fees.",
+  "description": "Design the software for a multi-floor parking lot. Vehicles enter through an entry gate, get a ticket for a spot that fits them, and pay an hourly fee when they leave through an exit gate. Staff need to see how many spots are free on each floor.",
+  "requirements": [
+    { "id": "R1", "text": "The lot has multiple floors, each with many parking spots.", "keywords": ["floor", "level"] },
+    { "id": "R2", "text": "Spots come in sizes for motorcycles, cars and trucks; a vehicle may only park in a spot that fits it.", "keywords": ["motorcycle", "truck", "spot type", "spottype", "size"] },
+    { "id": "R3", "text": "A ticket is issued on entry, recording the vehicle, the spot and the entry time.", "keywords": ["ticket"] },
+    { "id": "R4", "text": "On exit, the fee is calculated per hour (rates may differ by spot size) and paid.", "keywords": ["fee", "price", "pricing", "rate", "charge", "payment"] },
+    { "id": "R5", "text": "Show the number of available spots per floor and per spot size.", "keywords": ["available", "availability", "free spot", "vacant"] },
+    { "id": "R6", "text": "Reject entry when no suitable spot is free.", "keywords": ["full", "no spot", "reject", "unavailable"] }
+  ],
+  "constraints": [
+    "Several entry and exit gates operate at the same time.",
+    "No real payment gateway; model payment as an interface.",
+    "Focus on classes and behaviour, not on persistence or UI."
+  ],
+  "changeRequest": {
+    "id": "CR1",
+    "title": "EV charging spots",
+    "text": "Add electric-vehicle charging spots. EV owners pay for charging per kWh on top of the hourly parking fee.",
+    "keywords": ["electric", "charging", "kwh", "charger", "ev spot"]
+  }
+}
