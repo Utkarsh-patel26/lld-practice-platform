@@ -12,7 +12,7 @@ const envSchema = z.object({
   LLM_TIMEOUT_MS: int(60_000),
   LLM_MAX_RETRIES: z.coerce.number().int().min(0).default(2),
   LLM_RETRY_BASE_MS: int(1_000),
-  MOCK_LATENCY_MS: z.coerce.number().int().min(0).default(1_500),
+  MOCK_LATENCY_MS: z.coerce.number().int().min(0).default(4_000),
   WORKER_POLL_MS: int(2_000),
 });
 
