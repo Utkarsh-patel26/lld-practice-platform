@@ -1,0 +1,74 @@
+classDiagram
+  direction LR
+  class PracticeService {
+    startAttempt(learner, problemId)
+    saveDraft(attemptId, draft)
+    submit(attemptId, format, data, key?)
+    retryEvaluation(submissionId)
+  }
+  class Problem {
+    requirements: Requirement[]
+    changeRequest: ChangeRequest
+  }
+  class Attempt {
+    version: number
+    effectiveRequirements(problem)
+    saveDraft(draft)
+  }
+  class Submission {
+    status: SubmissionStatus
+    idempotencyKey
+    startEvaluation() complete() fail()
+    retryEvaluation()
+  }
+  class SubmissionContent {
+    <<interface>>
+    format
+    validate()
+    toEvaluationInput()
+    contentHash()
+  }
+  class TextDesignContent
+  class EvaluationPipeline {
+    run(submission, problem, attempt)
+  }
+  class Evaluator {
+    <<interface>>
+    source: rule | llm | human
+    evaluate(ctx) Finding[]
+  }
+  class RuleEvaluator
+  class LlmRubricEvaluator
+  class LlmClient {
+    <<interface>>
+    complete(request)
+  }
+  class EvidenceVerifier
+  class Feedback {
+    scores: 1-4 per dimension
+    findings
+    topFix
+    partial
+  }
+  class EvaluationWorker {
+    drain()
+  }
+  class ProgressService {
+    forLearner() weakest dimension
+  }
+
+  PracticeService --> Attempt
+  PracticeService --> Submission
+  Problem "1" --> "*" Attempt
+  Attempt "1" --> "*" Submission
+  Submission --> SubmissionContent
+  SubmissionContent <|.. TextDesignContent
+  Submission "1" --> "0..1" Feedback
+  EvaluationWorker --> EvaluationPipeline
+  EvaluationPipeline --> Evaluator
+  EvaluationPipeline --> EvidenceVerifier
+  EvaluationPipeline ..> Feedback : creates
+  Evaluator <|.. RuleEvaluator
+  Evaluator <|.. LlmRubricEvaluator
+  LlmRubricEvaluator --> LlmClient
+  ProgressService ..> Feedback : reads

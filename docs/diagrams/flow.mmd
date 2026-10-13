@@ -1,0 +1,24 @@
+sequenceDiagram
+  autonumber
+  actor L as Learner
+  participant API as Express API
+  participant PS as PracticeService
+  participant DB as SQLite (submissions + jobs)
+  participant W as EvaluationWorker
+  participant P as EvaluationPipeline
+  L->>API: POST /attempts/:id/submissions (Idempotency-Key)
+  API->>PS: submit()
+  PS->>DB: same key? return existing (200)
+  PS->>DB: save SUBMITTED + enqueue job (one transaction)
+  API-->>L: 202 + submission id
+  loop every 2s
+    W->>DB: claim job (lease_until)
+  end
+  W->>P: run(submission)
+  P->>P: RuleEvaluator (blocking finding stops here)
+  P->>P: LlmRubricEvaluator: prompt, zod, 1 repair retry
+  P->>P: EvidenceVerifier drops unquoted findings
+  P-->>W: Feedback (+ error if LLM failed)
+  W->>DB: save Feedback, COMPLETED or FAILED (partial)
+  L->>API: GET /submissions/:id every 3s
+  API-->>L: status + feedback

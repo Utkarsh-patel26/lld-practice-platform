@@ -1,0 +1,9 @@
+stateDiagram-v2
+  direction LR
+  [*] --> SUBMITTED : POST /submissions (202)
+  SUBMITTED --> EVALUATING : worker claims job
+  EVALUATING --> COMPLETED : pipeline finished
+  EVALUATING --> FAILED : LLM failed after retries (partial rule feedback kept)
+  FAILED --> EVALUATING : POST /retry
+  EVALUATING --> EVALUATING : lease expired, job reclaimed
+  COMPLETED --> [*]
